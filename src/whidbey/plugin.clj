@@ -25,10 +25,15 @@
 (def default-puget-options
   {:print-color true})
 
+(def ^:dynamic *recur?* true)
+
 (defn middleware
   [project]
-  (let [profile (whidbey-profile (merge default-puget-options
-                                        (:puget-options project)))]
-    (-> project
-        (project/add-profiles {:whidbey profile})
-        (project/merge-profiles [:whidbey]))))
+  (if *recur?*
+    (binding [*recur?* false]
+      (let [profile (whidbey-profile (merge default-puget-options
+                                            (:puget-options project)))]
+        (-> project
+            (project/add-profiles {:whidbey profile})
+            (project/merge-profiles [:whidbey]))))
+    project))
