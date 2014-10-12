@@ -34,6 +34,6 @@
       (let [profile (whidbey-profile (merge default-puget-options
                                             (:puget-options project)))]
         (-> project
-            (project/add-profiles {:whidbey profile})
-            (project/merge-profiles [:whidbey]))))
+            (project/add-profiles {::whidbey profile})
+            (project/merge-profiles [::whidbey]))))
     project))
